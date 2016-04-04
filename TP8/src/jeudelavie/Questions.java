@@ -9,7 +9,6 @@ package jeudelavie;
  * 
  * Etude des règles : 
  * - L'état d'une cellule dépend de l'état de ses 8 voisins
- * -
  *
  * 			
  * 
@@ -23,6 +22,6 @@ package jeudelavie;
 
 
 
-public class main {
+public class Questions {
 
 }
