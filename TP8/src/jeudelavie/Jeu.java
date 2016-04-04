@@ -7,16 +7,47 @@ public class Jeu {
 	
 	public static final int FPS = 5;
 	
-	
-	
-	
 	/**
-	 * Execute une itération du jeu de la vie. Produit une nouvelle grille.
+	 * Retourne le nombre de voisins vivants d'une case.
+	 * @param x
+	 * @param y
 	 * @param grille
 	 * @return
 	 */
-	public static boolean[][] step(boolean [][] grille) {
+	public static int getNeighborsAliveCount(int x, int y, boolean[][] grille){
+		int numberAlive = 0;
+		
+		if (x > 0) if (grille[x-1][y]) numberAlive += 1; //Gauche
+		if (x < grille.length) if (grille[x+1][y]) numberAlive += 1; //Droite
+		if (y < 0) if (grille[x][y-1]) numberAlive += 1; //Haut
+		if (y < grille.length) if (grille[x][y+1]) numberAlive += 1; //Bas
+		
+		if (x > 0 && y > 0) if (grille[x-1][ y-1]) numberAlive += 1; //Haut Gauche
+		if (x < grille.length && y > 0) if (grille[x+1][ y-1]) numberAlive += 1; //Haut Droite
+		if (x < grille.length && y < grille.length) if (grille[x+1][ y+1]) numberAlive += 1; // Bas Droite
+		if (x >0 && y < grille.length) if (grille[x-1][y+1]) numberAlive += 1; //Bas Gauche
+		
+		return numberAlive;
+	}
 	
+	
+	/**
+	 * Execute une itération du jeu de la vie. Modifie la grille.
+	 * @param grille
+	 */
+	public static void step(boolean [][] grille) {
+		boolean[][] newGrille = grille;
+		int size = grille.length;
+		for (int i = 0; i < size; i++ ){
+			for (int j = 0; i < size; j++ ){
+				if (grille[i][j]){ //Si elle est vivante
+					if (getNeighborsAliveCount(i,j,grille) < 2 || getNeighborsAliveCount(i,j,grille) > 3) newGrille[i][j] = false;
+				}else{ //Si elle est morte
+					if (getNeighborsAliveCount(i,j,grille) == 3) newGrille[i][j] = true;
+				}
+			}
+		}
+		grille = newGrille;
 	}
 	
 	
