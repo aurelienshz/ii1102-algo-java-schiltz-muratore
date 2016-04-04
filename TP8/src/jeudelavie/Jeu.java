@@ -155,10 +155,24 @@ public class Jeu {
 	 * @param grille 
 	 */
 	public static void affiche2D(boolean [][] grille) {
-		StdDraw.setCanvasSize(grille.length, grille[0].length);
+		double penRadius = 0.0025;
+		StdDraw.setPenRadius(penRadius);
+        StdDraw.setPenColor(StdDraw.BLUE);
+        for(double i = 1.0; i<grille.length; i++) {
+        	StdDraw.line(i/grille.length, 1, i/grille.length, 0);
+        }
+        
+        for(double j = 0; j<grille[0].length; j++) {
+        	StdDraw.line(1, j/grille[0].length, 0, j/grille[0].length);
+        }
+        
+        StdDraw.setPenColor(StdDraw.RED);
+        //Afficher Grille
 		for(int i = 0; i<grille.length; i++) {
 			for(int j = 0; j<grille[0].length; j++) {
-				if(grille[i][j]) StdDraw.filledCircle(i, j, 1);
+				if(grille[i][j]){
+					StdDraw.filledEllipse((double) (i+0.5)/grille.length , (double) (j+0.5)/grille[0].length, (double) 1/(2.25*grille.length), (double) 1/(2.25*grille[0].length));
+				}
 			}
 		}
 	}
