@@ -9,7 +9,7 @@
 
 
 ## WIP ##
-- [ ] (Buggy) Saisie au clic en StdDraw de la configuration initiale du tableau
+- [ ] Saisie au clic en StdDraw de la configuration initiale du tableau
 
 
 ## Not Done ##
