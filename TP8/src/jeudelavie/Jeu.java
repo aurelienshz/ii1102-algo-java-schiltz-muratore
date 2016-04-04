@@ -134,27 +134,62 @@ public class Jeu {
 	}
 	
 	/**
+	 * TODO Affiche une fenêtre avec des boutons + et - pour augmenter ou diminuer la hauteur ou largeur du tableau.
+	 * @return height et width int[]
+	 */
+	public static int askSize2D(){
+		StdDraw.setCanvasSize(100, 200);
+		return 0;
+		
+	}
+	
+	/**
 	 * Permet d'initialiser une grille via une interface StdDraw en cliquant sur les cases pour changer leur etat
 	 * @param height
 	 * @param width
-	 * @return
+	 * @return grille
 	 */
 	public static boolean[][] initGrille2D(int height, int width) {
 		boolean[][] grille = new boolean[height][width];
 		
+		StdDraw.setCanvasSize(40*grille.length, grille[0].length*40);
+		
 		for(int i = 0; i < grille.length; i++) {
 			for(int j = 0; j < grille[i].length; j++) {
-				grille[i][j] = true;
+				grille[i][j] = false;
+			}
+		}
+		
+		afficheGrille2D(grille);
+		while (!StdDraw.isKeyPressed(10)){
+			
+			StdDraw.show(75);
+			
+			if (StdDraw.mousePressed()){
+				
+				int n = (int) (StdDraw.mouseX()*grille.length);
+				int m = (int) (StdDraw.mouseY()*grille[0].length);
+				
+				if (grille[n][m]){
+					StdDraw.setPenColor(StdDraw.WHITE);
+					grille[n][m] = false;
+				}else{
+					StdDraw.setPenColor(StdDraw.RED);
+					grille[n][m] = true;
+				}
+				StdDraw.filledEllipse((double) (n+0.5)/grille.length , (double) (m+0.5)/grille.length, (double) 1/(2.25*grille.length), (double) 1/(2.25*grille[0].length));
+				
 			}
 		}
 		
 		return grille;		
 	}
 	/**
-	 * Déroule un jeu de la vie sur grille affichée à l'aide de StdDraw
-	 * @param grille 
+	 * Affiche la grille "graphique" en fonction de la taille de celle ci
+	 * @param grille
 	 */
-	public static void affiche2D(boolean [][] grille) {
+	
+	public static void afficheGrille2D(boolean [][] grille){
 		double penRadius = 0.0025;
 		StdDraw.setPenRadius(penRadius);
         StdDraw.setPenColor(StdDraw.BLUE);
@@ -165,9 +200,17 @@ public class Jeu {
         for(double j = 0; j<grille[0].length; j++) {
         	StdDraw.line(1, j/grille[0].length, 0, j/grille[0].length);
         }
+	}
+	
+	/**
+	 * Déroule un jeu de la vie sur grille affichée à l'aide de StdDraw
+	 * @param grille 
+	 */
+	public static void affiche2D(boolean [][] grille) {
+		
+		afficheGrille2D(grille);
         
         StdDraw.setPenColor(StdDraw.RED);
-        //Afficher Grille
 		for(int i = 0; i<grille.length; i++) {
 			for(int j = 0; j<grille[0].length; j++) {
 				if(grille[i][j]){

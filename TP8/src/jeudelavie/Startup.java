@@ -14,7 +14,6 @@ public class Startup {
 		    handleConsole();
 		}
 		else {
-			
 			handle2D();
 		}
 	 
@@ -25,34 +24,9 @@ public class Startup {
 		
 		int i=0;
 		
-		boolean [][] grille = {
-				{false, false, false, true, true},
-				{true,  true,  true, false, false},
-				{false, false, false, false, true},
-				{false, false, false, true, true},
-				{true,  true,  true, false, false},
-				{false, false, false, false, true},
-				{true,  true,  true, false, false},
-				{false, false, false, false, true},
-				{true,  true,  true, false, false},
-				{true,  true,  true, false, false},
-				{false, false, false, false, true},
-				{false, false, false, false, true},
-				{false, false, false, true, true},
-				{true,  true,  true, false, false},
-				{false, false, false, false, true},
-				{false, false, false, true, true},
-				{true,  true,  true, false, false},
-				{false, false, false, false, true},
-				{false, false, false, true, true},
-				{true,  true,  true, false, false},
-				{false, false, false, false, true},
-				{false, true, true, false, true}
-			};
+		boolean[][] grille = Jeu.initGrille2D(10, 10); // ou Jeu.lireGrille(fichier)
 		
-		//boolean[][] grille = Jeu.initGrille2D(30, 30); // ou Jeu.lireGrille(fichier)
-		int tileSize = 40;
-		StdDraw.setCanvasSize(tileSize*grille.length, grille[0].length*tileSize);
+		StdDraw.setCanvasSize(40*grille.length, grille[0].length*40);
 		Jeu.affiche2D(grille);
 		
 		while(i++ < 1000) {
