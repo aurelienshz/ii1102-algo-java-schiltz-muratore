@@ -16,17 +16,23 @@ public class Jeu {
 	 * @return
 	 */
 	public static boolean[][] step(boolean [][] grille) {
-	
+		return grille;
 	}
 	
 	
 	
 	/**
-	 * Déroule un jeu de lavie sur la grille donnée en parametre, en fichant les changements dans la console 
+	 * Déroule un jeu de la vie sur la grille donnée en parametre, en fichant les changements dans la console 
 	 * @param grille
 	 */
 	public static void afficheConsole(boolean[][] grille) {
-		
+		for(boolean[] ligne : grille) {
+			System.out.print("|");
+			for(boolean tile: ligne) {
+				System.out.print(tile?"O|":" |");
+			}
+			System.out.println("");
+		}
 	}
 	
 	/**
@@ -36,15 +42,23 @@ public class Jeu {
 	 * @return
 	 */
 	public static boolean [][] initGrille2D(int height, int width) {
+		boolean[][] grille = new boolean[height][width];
 		
-		return null;
+		for(int i = 0; i < grille.length; i++) {
+			for(int j = 0; j < grille[i].length; j++) {
+				grille[i][j] = true;
+			}
+		}
 		
+		return grille;		
 	}
 	/**
 	 * Déroule un jeu de la vie sur grille affichée à l'aide de StdDraw
 	 * @param grille 
 	 */
 	public static void affiche2D(boolean [][] grille) {
+		
+	
 	}
 	
 	/**
