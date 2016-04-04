@@ -139,7 +139,7 @@ public class Jeu {
 	 * @param width
 	 * @return
 	 */
-	public static boolean [][] initGrille2D(int height, int width) {
+	public static boolean[][] initGrille2D(int height, int width) {
 		boolean[][] grille = new boolean[height][width];
 		
 		for(int i = 0; i < grille.length; i++) {
@@ -155,8 +155,12 @@ public class Jeu {
 	 * @param grille 
 	 */
 	public static void affiche2D(boolean [][] grille) {
-		
-	
+		StdDraw.setCanvasSize(grille.length, grille[0].length);
+		for(int i = 0; i<grille.length; i++) {
+			for(int j = 0; j<grille[0].length; j++) {
+				if(grille[i][j]) StdDraw.filledCircle(i, j, 1);
+			}
+		}
 	}
 	
 	/**

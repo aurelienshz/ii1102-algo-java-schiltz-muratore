@@ -24,8 +24,7 @@ public class Startup {
 		
 		int i=0;
 		
-		boolean [][] grille = null;
-		Jeu.initGrille2D(30, 30); // ou Jeu.lireGrille(fichier)
+		boolean[][] grille = Jeu.initGrille2D(30, 30); // ou Jeu.lireGrille(fichier)
 		
 		while(i++ < 1000) {
 			grille = Jeu.step(grille);
@@ -41,9 +40,9 @@ public class Startup {
 		System.out.println("## JEU DE LA VIE ##");
 		System.out.println("Appuyer sur Entrée pour afficher l'étape suivante, saisir Q pour quitter");
 		boolean [][] grille = {
-			{false, false, false},
-			{true,  true,  true },
-			{false, false, false}		
+			{false, false, false, true},
+			{true,  true,  true, false},
+			{false, false, false, true}		
 		};
 		String ch ="a";
 		Scanner scan = new Scanner(System.in);
