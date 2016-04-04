@@ -40,7 +40,7 @@ public class Startup {
 
 
 	public static void handleConsole() {
-		System.out.println("## JEU DE LA VIE ##");
+		System.out.println("# JEU DE LA VIE #");
 		System.out.println("Appuyer sur Entrée pour afficher l'étape suivante, saisir Q pour quitter");
 		boolean [][] grille = {
 			{false, false, false, true},
