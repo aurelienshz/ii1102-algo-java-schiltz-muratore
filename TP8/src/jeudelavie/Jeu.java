@@ -1,11 +1,13 @@
 package jeudelavie;
 
+import java.awt.Font;
+
 import edu.princeton.cs.introcs.StdDraw;
 
 
 public class Jeu {
 	
-	public static final int FPS = 5;
+	public static final int FPS = 10;
 	
 	/**
 	 * Retourne le nombre de voisins vivants d'une case.
@@ -134,23 +136,87 @@ public class Jeu {
 	}
 	
 	/**
-	 * TODO Affiche une fenêtre avec des boutons + et - pour augmenter ou diminuer la hauteur ou largeur du tableau.
-	 * @return height et width int[]
+	 * Affiche l'écran de saisie de taille du tableau
+	 * @param x
+	 * @param y
 	 */
-	public static int askSize2D(){
-		StdDraw.setCanvasSize(100, 200);
-		return 0;
+	public static void afficheaskSize2D(int x, int y){
+		Font font = new Font("Arial", Font.BOLD, 20);
+		Font font2 = new Font("Arial", Font.BOLD, 30);
+		
+		StdDraw.setPenColor(StdDraw.BLACK);
+		StdDraw.line(0, 0.75, 1, 0.75);
+		StdDraw.line(0, 0.5, 1, 0.5);
+		StdDraw.line(0, 0.25, 1, 0.25);
+		StdDraw.line(0.5, 0.75, 0.5, 0);
+		StdDraw.setFont(font);
+		StdDraw.text(0.5, 0.75 + 0.25/2 ,"Taille du tableau :");
+		StdDraw.setFont(font2);
+		StdDraw.setPenColor(StdDraw.GREEN);
+		StdDraw.text(0.25, 0.25 + 0.25/2.3 ,"+");
+		StdDraw.text(0.75, 0.25 + 0.25/2.3 ,"+");
+		StdDraw.setPenColor(StdDraw.RED);
+		StdDraw.text(0.25, 0.25/2.3 ,"-");
+		StdDraw.text(0.75, 0.25/2.3 ,"-");
+		StdDraw.setPenColor(StdDraw.BLACK);
+		StdDraw.text(0.25, 0.5 + 0.25/2.3 ,"X = " + String.valueOf(x));
+		StdDraw.text(0.75, 0.5 + 0.25/2.3 ,"Y = " + String.valueOf(y));
+	}
+	
+	/**
+	 * Affiche un écran graphique de saisie de taille de tableau et renvoie la taille validée
+	 * Validation avec : SHIFT
+	 * @return array avec x:width, y:height
+	 */
+	public static int[] askSize2D(){
+		int x = 0;
+		int y = 0;
+		StdDraw.setCanvasSize(200, 200);
+		StdDraw.setPenRadius(0.003);
+		afficheaskSize2D(x, y);
+		
+		while (!StdDraw.isKeyPressed(16)){
+			StdDraw.show(80);
+			
+			if (StdDraw.mousePressed()){
+				
+				int n = (int) (StdDraw.mouseX()*2);
+				int m = (int) (StdDraw.mouseY()*4);
+				
+				switch (m) {
+					case 0: if (n < 1) {
+									x--;
+							}else{
+								 	y--;
+							}
+							break;
+					case 1 :if (n < 1) {
+									x++;
+							}else{
+								 	y++;
+							}
+							break;	
+				}
+				StdDraw.clear();
+				afficheaskSize2D(x, y);
+
+			}
+		}
+		int[] a = {x,y};
+		return a;
 		
 	}
 	
 	/**
 	 * Permet d'initialiser une grille via une interface StdDraw en cliquant sur les cases pour changer leur etat
+	 * Lancer le jeu : Appuyer sur ENTREE
 	 * @param height
 	 * @param width
 	 * @return grille
 	 */
 	public static boolean[][] initGrille2D(int height, int width) {
-		boolean[][] grille = new boolean[height][width];
+		int[] size = askSize2D();
+		boolean[][] grille = new boolean[size[1]][size[0]];
 		
 		StdDraw.setCanvasSize(40*grille.length, grille[0].length*40);
 		
@@ -163,27 +229,30 @@ public class Jeu {
 		afficheGrille2D(grille);
 		while (!StdDraw.isKeyPressed(10)){
 			
-			StdDraw.show(75);
+			StdDraw.show(60);
 			
 			if (StdDraw.mousePressed()){
 				
 				int n = (int) (StdDraw.mouseX()*grille.length);
 				int m = (int) (StdDraw.mouseY()*grille[0].length);
+				double tailleEllipse = 0;
 				
 				if (grille[n][m]){
 					StdDraw.setPenColor(StdDraw.WHITE);
+					tailleEllipse = 2.22;
 					grille[n][m] = false;
 				}else{
 					StdDraw.setPenColor(StdDraw.RED);
+					tailleEllipse = 2.3;
 					grille[n][m] = true;
 				}
-				StdDraw.filledEllipse((double) (n+0.5)/grille.length , (double) (m+0.5)/grille.length, (double) 1/(2.25*grille.length), (double) 1/(2.25*grille[0].length));
-				
+				StdDraw.filledEllipse((double) (n+0.5)/grille.length , (double) (m+0.5)/grille[0].length, (double) 1/(tailleEllipse*grille.length), (double) 1/(tailleEllipse*grille[0].length));
 			}
 		}
 		
 		return grille;		
 	}
+	
 	/**
 	 * Affiche la grille "graphique" en fonction de la taille de celle ci
 	 * @param grille
@@ -203,7 +272,7 @@ public class Jeu {
 	}
 	
 	/**
-	 * Déroule un jeu de la vie sur grille affichée à l'aide de StdDraw
+	 * Affiche l'état en cours du jeu de la vie à l'aide de StdDraw
 	 * @param grille 
 	 */
 	public static void affiche2D(boolean [][] grille) {

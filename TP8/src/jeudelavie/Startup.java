@@ -15,6 +15,7 @@ public class Startup {
 		}
 		else {
 			handle2D();
+			
 		}
 	 
 	}
@@ -30,11 +31,13 @@ public class Startup {
 		Jeu.affiche2D(grille);
 		
 		while(i++ < 1000) {
-			grille = Jeu.step(grille);
-		
-			StdDraw.clear();
-			Jeu.affiche2D(grille);
-			StdDraw.show(1000/Jeu.FPS);
+			if (StdDraw.isKeyPressed(16)){ //Appui sur shift
+				grille = Jeu.step(grille);
+				StdDraw.clear();
+				Jeu.affiche2D(grille);
+				}
+				StdDraw.show(1000/Jeu.FPS);
+				
 		}
 	}
 
