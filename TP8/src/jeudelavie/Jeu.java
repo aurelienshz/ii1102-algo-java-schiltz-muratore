@@ -515,11 +515,12 @@ public class Jeu {
 		StdDraw.text(0.5, 0.90, "Instructions du jeu de la vie :");
 		StdDraw.setFont(font);
 		StdDraw.text(0.5, 0.75, "SHIFT : avancer à la fenêtre suivante");
-		StdDraw.text(0.5, 0.62, "ENTREE : idem, mais uniquement");
+		StdDraw.text(0.5, 0.61, "ENTREE : idem, mais uniquement");
 		StdDraw.text(0.5, 0.56, "pour la saisie au clic du tableau");
-		StdDraw.text(0.5, 0.45, "q : pour quitter la partie en cours");
-		StdDraw.text(0.5, 0.30, "r : pour recommencer");
-		StdDraw.text(0.5, 0.15, "s : pour sauvegarder le tableau actuel");
+		StdDraw.text(0.5, 0.45, "r : pour recommencer");
+		StdDraw.text(0.5, 0.30, "s : pour sauvegarder le tableau actuel");
+		StdDraw.setFont(fontBold);
+		StdDraw.text(0.5, 0.15, "Bon jeu !");
 		
 		while (!StdDraw.isKeyPressed(16)){
 			StdDraw.show(80);

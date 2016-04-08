@@ -1,6 +1,5 @@
 package jeudelavie;
 
-import java.awt.Font;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -38,8 +37,16 @@ public class Startup {
 				StdDraw.clear();
 				Jeu.affiche2D(grille);
 				}
-			if (StdDraw.isKeyPressed(83)){
+			if (StdDraw.isKeyPressed(83)){ //Appui sur s
 				Jeu.ecrireGrille(grille, "save.txt");
+			}
+			if (StdDraw.isKeyPressed(82)){ // Appui sur r
+				System.out.println("Jeu réinitialisé");
+				StdDraw.clear();
+				StdDraw.show(500/Jeu.FPS);
+				grille = Jeu.initGrille2D();
+				StdDraw.setCanvasSize(40*grille.length, grille[0].length*40);
+				Jeu.affiche2D(grille);
 			}
 				StdDraw.show(1000/Jeu.FPS);
 		}
