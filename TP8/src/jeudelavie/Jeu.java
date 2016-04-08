@@ -1,6 +1,12 @@
 package jeudelavie;
 
 import java.awt.Font;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
 
 import edu.princeton.cs.introcs.StdDraw;
 
@@ -342,7 +348,16 @@ public class Jeu {
 	 * @return
 	 */
 	public static boolean [][] lireGrille(String fichier) {
-		return null;
+		try {
+			FileReader reader = new FileReader(fichier);
+			//reader.
+			StringBuffer ligne = new StringBuffer();
+			
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -350,8 +365,31 @@ public class Jeu {
 	 * @param fichier
 	 * @return
 	 */
-	public static boolean [][] ecrireGrille(String fichier) {
-		return null;
+	public static void ecrireGrille(boolean[][] grille) {
+		
+		StringBuffer ligne = new StringBuffer();
+		
+		PrintWriter writer;
+		try {
+			writer = new PrintWriter("save.txt","UTF-8");
+		
+			for (boolean[] line : grille) {
+				for(boolean tile : line) {
+					String val = tile?"1":"0";
+					ligne.append(val + ";");
+				}
+				writer.println(ligne);
+				ligne.delete(0, ligne.length());
+			}
+			writer.close();
+			System.out.println("Grille Sauvegardée");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	/**
 	 * Affiche les touches nécessaire pour jouer au jeu.

@@ -36,8 +36,10 @@ public class Startup {
 				StdDraw.clear();
 				Jeu.affiche2D(grille);
 				}
+			if (StdDraw.isKeyPressed(83)){
+				Jeu.ecrireGrille(grille);
+			}
 				StdDraw.show(1000/Jeu.FPS);
-				
 		}
 	}
 

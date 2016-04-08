@@ -9,14 +9,14 @@
 - [x] Saisie au clic en StdDraw de la configuration initiale du tableau
 - [x] Passage à l'étape suivante en gaphique à l'appui d'une touche. SHIFT
 - [x] Demander en début de partie la taille de la grille en Graphique 
+- [x] Peuplage aléatoire.
 
 ## WIP ##
 - [ ] Demander en début de partie la taille de la grille en Console
-
-## Not Done ##
-- [ ] Peuplage aléatoire.
 - [ ] Sauvegarde de la grille dans un fichier en appuyant sur une touche en Graphique et en Console
 - [ ] Importer un fichier de carte.
+- [ ] Détection de fin de partie.
+
+## Not Done ##
 - [ ] Répondre aux questions du sujet à l'écrit dans le repo dans un fichier .md à créer.
 - [ ] Ecrans d'information pour expliquer les touches.
-- [ ] Détection de fin de partie.
