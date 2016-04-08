@@ -1,11 +1,18 @@
 package jeudelavie;
 
 import java.awt.Font;
-
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 import edu.princeton.cs.introcs.StdDraw;
@@ -315,20 +322,17 @@ public class Jeu {
 		
 		if (askInitMode()){
 			size = askSize2D();
+			if(askFillingMode()) {
+				// True : Saisie de grille à la main :
+				grille = saisieGrille2D(size[1],size[0]);
+			}
+			else {
+				// False = Grille aléatoire
+				grille = generateRandomGrid(size[1],size[0]);
+			}
 		}else{
-			//Importer
+			grille = lireGrille("save.txt");
 		}
-		
-		
-		if(askFillingMode()) {
-			// True : Saisie de grille à la main :
-			grille = saisieGrille2D(size[1],size[0]);
-		}
-		else {
-			// False = Grille aléatoire
-			grille = generateRandomGrid(size[1],size[0]);
-		}
-		
 		
 		return grille;
 				
@@ -433,17 +437,42 @@ public class Jeu {
 	 * @param fichier
 	 * @return
 	 */
-	public static boolean [][] lireGrille(String fichier) {
-		try {
-			FileReader reader = new FileReader(fichier);
-			//reader.
-			StringBuffer ligne = new StringBuffer();
-			
-			
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public static boolean[][] lireGrille(String fichier) {
+		    //Lecture du fichier
+			String line = null;
+		    ArrayList<boolean[]> list = new ArrayList<boolean[]>();
+		    try {
+		        BufferedReader reader = new BufferedReader(new FileReader(fichier));
+		        while((line = reader.readLine()) != null){
+		            line = line.replace(";", "");
+		            boolean[] lineB = new boolean[line.length()];
+		            for(int i = 0; i < line.length(); i++) {
+		            	
+		            	boolean val = false;
+		            	
+		            	if (line.charAt(i) == '1'){
+		            		val = true;
+		            	}
+		            	
+		            	lineB[i] = val;
+		            	
+		            }
+
+		            list.add(lineB);
+		        }
+		        reader.close();
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		    }
+		    //Conversion ArrayList -> Array 2D
+		    boolean[][] convList = new boolean[list.size()][list.get(0).length];
+
+		    for(int n = 0; n < list.size(); n++)
+		    {
+		         convList[n] = list.get(n); 
+		    }
+		    
+		    return(convList);
 	}
 	
 	/**
