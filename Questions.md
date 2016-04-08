@@ -121,6 +121,6 @@ Par exemple si n = m on a 2*(n^2)*(4*(n^2)+2*n-10)
 
 Voici le nombre de recherches de voisins pour quelques valeurs de n :
 
-|**n** |1   |2   |3   |4   |5   |
-|---   |--- |--- |--- |--- |--- |
-|Valeur|-8  |80  |576 |1984|5000|
+|**n** |2   |3   |4   |5   |
+|---   |--- |--- |--- |--- |
+|Valeur|80  |576 |1984|5000|
