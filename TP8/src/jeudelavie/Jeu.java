@@ -1,12 +1,12 @@
 package jeudelavie;
 
 import java.awt.Font;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.nio.file.Files;
+import java.util.Random;
 
 import edu.princeton.cs.introcs.StdDraw;
 
@@ -260,6 +260,48 @@ public class Jeu {
 	}
 	
 	/**
+	 * Affiche une fenêtre qui demande le mode de saisie du tableau
+	 * @return false si "Importer" true si "Créer"
+	 */
+	public static boolean askFillingMode(){
+		boolean output = true;
+		Font font = new Font("Arial", Font.BOLD, 20);
+		
+		StdDraw.setCanvasSize(200, 100);
+		StdDraw.setPenRadius(0.003);
+		
+		StdDraw.setPenColor(StdDraw.BLACK);
+		StdDraw.line(0, 0.5, 1, 0.5);
+		StdDraw.line(0.5, 0, 0.5, 0.5);
+		StdDraw.setFont(font);
+		StdDraw.text(0.5, 0.5 + 0.25 ,"Mode de saisie :");
+		StdDraw.setFont(font);
+		StdDraw.setPenColor(StdDraw.RED);
+		StdDraw.text(0.25, 0.25 ,"Aléatoire");
+		StdDraw.text(0.75, 0.25 ,"Saisir");
+		StdDraw.setPenColor(StdDraw.BLACK);
+		
+		while (!StdDraw.mousePressed()){
+			StdDraw.show(80);
+		}
+		
+		if (StdDraw.mousePressed()){
+			
+			int n = (int) (StdDraw.mouseX()*2);
+			int m = (int) (StdDraw.mouseY()*2);
+			
+			if (m < 1){
+				if (n < 1) {
+					output = false;
+				}				
+			}
+		}
+		StdDraw.clear();
+		StdDraw.show(100);
+		return output;
+	}
+	
+	/**
 	 * Permet d'initialiser une grille via une interface StdDraw en cliquant sur les cases pour changer leur etat
 	 * Lancer le jeu : Appuyer sur ENTREE
 	 * @param height
@@ -269,14 +311,58 @@ public class Jeu {
 	public static boolean[][] initGrille2D(int height, int width) {
 		
 		int[] size = {10,10};
+		boolean[][] grille;
 		
 		if (askInitMode()){
 			size = askSize2D();
 		}else{
 			//Importer
 		}
+		
+		
+		if(askFillingMode()) {
+			// True : Saisie de grille à la main :
+			grille = saisieGrille2D(size[1],size[0]);
+		}
+		else {
+			// False = Grille aléatoire
+			grille = generateRandomGrid(size[1],size[0]);
+		}
+		
+		
+		return grille;
+				
+	}
 	
-		boolean[][] grille = new boolean[size[1]][size[0]];
+	/**
+	 * Génération aléatoire d'une grille 
+	 * @param sizeX largeur de la grille
+	 * @param sizeY hauteur de la grille
+	 * @return boolean[sizeX][sizeY] grille générée
+	 */
+	public static boolean[][] generateRandomGrid(int sizeX, int sizeY) {
+		Random rand = new Random();
+		boolean[][] grille = new boolean[sizeX][sizeY];
+		
+		for(int i = 0; i<grille.length; i++) {
+			for (int j = 0; j < grille[i].length; j++) {
+				
+				grille[i][j] = rand.nextInt(2)==1?true:false;
+			}
+		}
+		
+		return grille;
+	}
+	
+	/**
+	 * Saisie d'une grille à l'aide d'une interface graphique 
+	 * @param sizeX largeur de la grille
+	 * @param sizeY hauteur de la grille
+	 * @return boolean[sizeX][sizeY] grille saisie
+	 */
+	public static boolean[][] saisieGrille2D(int sizeX, int sizeY) {
+		
+		boolean[][] grille = new boolean[sizeX][sizeY];
 		
 		StdDraw.setCanvasSize(40*grille.length, grille[0].length*40);
 		
@@ -302,8 +388,8 @@ public class Jeu {
 			StdDraw.clear();
 			affiche2D(grille);
 		}
-		StdDraw.show(80);
-		return grille;		
+
+		return grille;
 	}
 	
 	/**
