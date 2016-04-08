@@ -4,15 +4,9 @@ import java.awt.Font;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 
 import edu.princeton.cs.introcs.StdDraw;
@@ -223,84 +217,88 @@ public class Jeu {
 		return a;
 		
 	}
-	
+
 	/**
-	 * Affiche une fenêtre qui demande le mode de saisie du tableau
-	 * @return false si "Importer" true si "Créer"
+	 * Affiche un écran avec un titre sur une première ligne et deux boutons répartis sur la dernière ligne un sur la moitié gauche, l'autre sur la droite
+	 * @param titre
+	 * @param bouton1 à gauche
+	 * @param bouton2 à droite
 	 */
-	public static boolean askInitMode(){
-		boolean output = true;
+	private static void afficheEcranDeuxBoutons(String titre, String bouton1, String bouton2){
 		Font font = new Font("Arial", Font.BOLD, 20);
-		
 		StdDraw.setCanvasSize(200, 100);
 		StdDraw.setPenRadius(0.003);
-		
 		StdDraw.setPenColor(StdDraw.BLACK);
 		StdDraw.line(0, 0.5, 1, 0.5);
 		StdDraw.line(0.5, 0, 0.5, 0.5);
 		StdDraw.setFont(font);
-		StdDraw.text(0.5, 0.5 + 0.25 ,"Mode de saisie :");
+		StdDraw.text(0.5, 0.5 + 0.25 ,titre);
 		StdDraw.setFont(font);
 		StdDraw.setPenColor(StdDraw.RED);
-		StdDraw.text(0.25, 0.25 ,"Importer");
-		StdDraw.text(0.75, 0.25 ,"Créer");
+		StdDraw.text(0.25, 0.25 ,bouton1);
+		StdDraw.text(0.75, 0.25 ,bouton2);
 		StdDraw.setPenColor(StdDraw.BLACK);
+	}
+	
+	/**
+	 * Affiche une fenêtre qui demande le mode de saisie du tableau
+	 * @return 1 si "Importer" 2 si "Créer"
+	 */
+	public static int askInitMode(){
+		int output = 0;
 		
-		while (!StdDraw.mousePressed()){
-			StdDraw.show(80);
-		}
+		afficheEcranDeuxBoutons("Mode de saisie :", "Importer", "Créer");
 		
-		if (StdDraw.mousePressed()){
+		while (output == 0){
+			while (!StdDraw.mousePressed()){
+				StdDraw.show(80);
+			}
 			
-			int n = (int) (StdDraw.mouseX()*2);
-			int m = (int) (StdDraw.mouseY()*2);
-			
-			if (m < 1){
-				if (n < 1) {
-					output = false;
-				}				
+			if (StdDraw.mousePressed()){
+				
+				int n = (int) (StdDraw.mouseX()*2);
+				int m = (int) (StdDraw.mouseY()*2);
+				
+				if (m < 1){
+					if (n < 1) {
+						output = 1;
+					}else{
+						output = 2;
+					}
+				}
 			}
 		}
 		StdDraw.clear();
-		StdDraw.show(80);
+		StdDraw.show(150);
 		return output;
 	}
 	
 	/**
 	 * Affiche une fenêtre qui demande le mode de saisie du tableau
-	 * @return false si "Importer" true si "Créer"
+	 * @return 1 si "Aléatoire" 2 si "Saisir"
 	 */
-	public static boolean askFillingMode(){
-		boolean output = true;
-		Font font = new Font("Arial", Font.BOLD, 20);
+	public static int askFillingMode(){
+		int output = 0;
 		
-		StdDraw.setCanvasSize(200, 100);
-		StdDraw.setPenRadius(0.003);
+		afficheEcranDeuxBoutons("Mode de saisie :", "Aléatoire", "Saisir");
 		
-		StdDraw.setPenColor(StdDraw.BLACK);
-		StdDraw.line(0, 0.5, 1, 0.5);
-		StdDraw.line(0.5, 0, 0.5, 0.5);
-		StdDraw.setFont(font);
-		StdDraw.text(0.5, 0.5 + 0.25 ,"Mode de saisie :");
-		StdDraw.setFont(font);
-		StdDraw.setPenColor(StdDraw.RED);
-		StdDraw.text(0.25, 0.25 ,"Aléatoire");
-		StdDraw.text(0.75, 0.25 ,"Saisir");
-		StdDraw.setPenColor(StdDraw.BLACK);
-		
-		while (!StdDraw.mousePressed()){
-			StdDraw.show(80);
-		}
-		
-		if (StdDraw.mousePressed()){
+		while (output == 0){
+			while (!StdDraw.mousePressed()){
+				StdDraw.show(80);
+			}
 			
-			int n = (int) (StdDraw.mouseX()*2);
-			int m = (int) (StdDraw.mouseY()*2);
-			
-			if (m < 1){
-				if (n < 1) {
-					output = false;
-				}				
+			if (StdDraw.mousePressed()){
+				
+				int n = (int) (StdDraw.mouseX()*2);
+				int m = (int) (StdDraw.mouseY()*2);
+				
+				if (m < 1){
+					if (n < 1) {
+						output = 1;
+					}else {
+						output = 2;
+					}
+				}
 			}
 		}
 		StdDraw.clear();
@@ -310,39 +308,38 @@ public class Jeu {
 	
 	/**
 	 * Permet d'initialiser une grille via une interface StdDraw en cliquant sur les cases pour changer leur etat
-	 * Lancer le jeu : Appuyer sur ENTREE
-	 * @param height
-	 * @param width
 	 * @return grille
 	 */
-	public static boolean[][] initGrille2D(int height, int width) {
+	public static boolean[][] initGrille2D() {
 		
-		int[] size = {10,10};
-		boolean[][] grille;
+		int[] size;
+		boolean[][] grille = null;
+		int initMode = askInitMode();
 		
-		if (askInitMode()){
+		if (initMode == 2){
 			size = askSize2D();
-			if(askFillingMode()) {
+			int fillingMode = askFillingMode();
+			if(fillingMode == 2) {
 				// True : Saisie de grille à la main :
 				grille = saisieGrille2D(size[1],size[0]);
 			}
-			else {
+			else if(fillingMode == 1) {
 				// False = Grille aléatoire
 				grille = generateRandomGrid(size[1],size[0]);
 			}
-		}else{
+		}else if(initMode == 1) {
 			grille = lireGrille("save.txt");
+		}else{
+			grille = initGrille2D();
 		}
-		
-		return grille;
-				
+		return grille;		
 	}
 	
 	/**
 	 * Génération aléatoire d'une grille 
 	 * @param sizeX largeur de la grille
 	 * @param sizeY hauteur de la grille
-	 * @return boolean[sizeX][sizeY] grille générée
+	 * @return la grille générée
 	 */
 	public static boolean[][] generateRandomGrid(int sizeX, int sizeY) {
 		Random rand = new Random();
@@ -362,7 +359,7 @@ public class Jeu {
 	 * Saisie d'une grille à l'aide d'une interface graphique 
 	 * @param sizeX largeur de la grille
 	 * @param sizeY hauteur de la grille
-	 * @return boolean[sizeX][sizeY] grille saisie
+	 * @return la grille saisie
 	 */
 	public static boolean[][] saisieGrille2D(int sizeX, int sizeY) {
 		
@@ -416,7 +413,7 @@ public class Jeu {
 	
 	/**
 	 * Affiche l'état en cours du jeu de la vie à l'aide de StdDraw
-	 * @param grille 
+	 * @param grille la grille du jeu
 	 */
 	public static void affiche2D(boolean [][] grille) {
 		
@@ -434,8 +431,8 @@ public class Jeu {
 	
 	/**
 	 * Lit une grille depuis un fichier dont le chemin est donné en paramètre
-	 * @param fichier
-	 * @return
+	 * @param fichier le nom du fichier
+	 * @return la grille importée
 	 */
 	public static boolean[][] lireGrille(String fichier) {
 		    //Lecture du fichier
@@ -472,21 +469,21 @@ public class Jeu {
 		         convList[n] = list.get(n); 
 		    }
 		    
-		    return(convList);
+		    return convList;
 	}
 	
 	/**
-	 * Enregistre une grille dans un fichier dont le chemin est donné en paramètre
-	 * @param fichier
-	 * @return
+	 * Enregistre une grille dans un fichier dont le nom est donné en paramètre
+	 * @param grille la grille du jeu
+	 * @param fichier le nom du fichier
 	 */
-	public static void ecrireGrille(boolean[][] grille) {
+	public static void ecrireGrille(boolean[][] grille, String fichier) {
 		
 		StringBuffer ligne = new StringBuffer();
 		
 		PrintWriter writer;
 		try {
-			writer = new PrintWriter("save.txt","UTF-8");
+			writer = new PrintWriter(fichier,"UTF-8");
 		
 			for (boolean[] line : grille) {
 				for(boolean tile : line) {
@@ -499,27 +496,33 @@ public class Jeu {
 			writer.close();
 			System.out.println("Grille Sauvegardée");
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
+	
 	/**
 	 * Affiche les touches nécessaire pour jouer au jeu.
 	 */
 	public static void afficheInstructions() {
-		/* Instructions : 
-		 * SHIFT : avancer, fenêtre suivante
-		 * ENTREE pour valider une grille saisie à la main
-		 * q : quitter
-		 * r : recommencer
-		 * s : sauvegarder la grille
-		 */
 		
-		StdDraw.setCanvasSize(200, 800);
+		StdDraw.setCanvasSize(280, 200);
 		StdDraw.setPenRadius(0.003);
+		Font font = new Font("Arial", Font.PLAIN, 15);
+		Font fontBold = new Font("Arial", Font.BOLD, 20);
+		StdDraw.setFont(fontBold);
+		StdDraw.text(0.5, 0.90, "Instructions du jeu de la vie :");
+		StdDraw.setFont(font);
+		StdDraw.text(0.5, 0.75, "SHIFT : avancer à la fenêtre suivante");
+		StdDraw.text(0.5, 0.62, "ENTREE : idem, mais uniquement");
+		StdDraw.text(0.5, 0.56, "pour la saisie au clic du tableau");
+		StdDraw.text(0.5, 0.45, "q : pour quitter la partie en cours");
+		StdDraw.text(0.5, 0.30, "r : pour recommencer");
+		StdDraw.text(0.5, 0.15, "s : pour sauvegarder le tableau actuel");
 		
+		while (!StdDraw.isKeyPressed(16)){
+			StdDraw.show(80);
+		}
 	}
 }

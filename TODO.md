@@ -12,11 +12,11 @@
 - [x] Peuplage aléatoire.
 - [x] Sauvegarde de la grille dans un fichier en appuyant sur une touche en Graphique et en Console
 - [x] Importer un fichier de carte.
+- [x] Ecrans d'information pour expliquer les touches.
 
 ## WIP ##
 - [ ] Demander en début de partie la taille de la grille en Console
 - [ ] Détection de fin de partie.
-- [ ] Ecrans d'information pour expliquer les touches.
 - [ ] Répondre aux questions du sujet à l'écrit dans le repo dans un fichier .md à créer.
 
 ## Not Done ##
