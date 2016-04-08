@@ -25,8 +25,10 @@ public class Startup {
 	private static void handle2D() {
 		
 		int i=0;
+
 		Jeu.afficheInstructions();
 		boolean[][] grille = Jeu.initGrille2D();
+
 		
 		StdDraw.setCanvasSize(40*grille.length, grille[0].length*40);
 		Jeu.affiche2D(grille);
@@ -54,21 +56,25 @@ public class Startup {
 
 
 	public static void handleConsole() {
-		System.out.println("# JEU DE LA VIE #");
-		System.out.println("Appuyer sur Entrée pour afficher l'étape suivante, saisir Q pour quitter");
-		boolean [][] grille = {
+		// System.out.println("# JEU DE LA VIE #");
+		// System.out.println("Appuyer sur Entrée pour afficher l'étape suivante, saisir Q pour quitter");
+		/*
+		 * boolean [][] grille = {
+		 
 			{false, false, false, true},
 			{true,  true,  true, false},
 			{false, false, false, true}		
-		};
+		}; */
+		
+		boolean[][] grille = Jeu.initGrilleConsole();
+		
 		String ch ="a";
 		Scanner scan = new Scanner(System.in);
 				
 		while(!ch.equals("q")) { // On quitte en appuyant sur "q" puis entrer
 			Jeu.afficheConsole(grille);
 			ch = scan.nextLine();
-			grille = Jeu.step(grille);
-			
+			grille = Jeu.step(grille);			
 		}
 		scan.close();
 		

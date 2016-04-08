@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 
 import edu.princeton.cs.introcs.StdDraw;
 
@@ -126,6 +127,54 @@ public class Jeu {
 		return newGrille;
 	}
 	
+	
+	public static boolean[][] initGrilleConsole() {
+		Scanner scan = new Scanner(System.in);
+		
+		int choice = -1;
+		
+		System.out.println("### Menu : ###");
+		System.out.println("1. Charger une grille à partir d'un fichier");
+		System.out.println("2. Créer une nouvelle grille");
+		System.out.println("3. Générer une grille aléatoirement");
+
+		choice = scan.nextInt();
+		while(choice < 1 && choice > 3) {
+			System.out.println("Choix invalide !");
+			choice = scan.nextInt();
+		}
+		
+		switch(choice) {
+		case 1:
+			System.out.println("Pas encore implémenté :3");
+			//grille = initGrilleConsole();
+			break;
+		case 2:
+			System.out.println("Création d'une nouvelle grille :");
+			System.out.println("Hauteur : ");
+			int height = scan.nextInt();
+			System.out.println("Largeur : ");
+			int width = scan.nextInt();
+			
+			
+			boolean[][] grille = new boolean[width][height];
+			for (int i = 0; i < width; i ++) {
+				for (int j = 0; j < height; j ++) {
+					System.out.println("Cellule : ligne "+ (i+1) +", colonne "+ (j+1) +" vivante ? [O/n]");
+					String c = scan.next();
+					if(c.toLowerCase()=="o" || c =="") {
+						grille[i][j] = true;
+					}
+					else {
+						grille[i][j] = false;
+					}
+				}
+			}			
+			break;
+		}
+		
+		return grille;
+	}
 	
 	/**
 	 * Déroule un jeu de la vie sur la grille donnée en parametre, en fichant les changements dans la console 
