@@ -282,24 +282,21 @@ public class Jeu {
 		StdDraw.show(80);
 		afficheGrille2D(grille);
 		while (!StdDraw.isKeyPressed(10)){
-			StdDraw.show(60);
 			if (StdDraw.mousePressed()){
 				int n = (int) (StdDraw.mouseX()*grille.length);
 				int m = (int) (StdDraw.mouseY()*grille[0].length);
-				double tailleEllipse = 0;
 				
 				if (grille[n][m]){
-					StdDraw.setPenColor(StdDraw.WHITE);
-					tailleEllipse = 2.22;
 					grille[n][m] = false;
 				}else{
-					StdDraw.setPenColor(StdDraw.RED);
-					tailleEllipse = 2.3;
 					grille[n][m] = true;
 				}
-				StdDraw.filledEllipse((double) (n+0.5)/grille.length , (double) (m+0.5)/grille[0].length, (double) 1/(tailleEllipse*grille.length), (double) 1/(tailleEllipse*grille[0].length));
 			}
+			StdDraw.show(80);
+			StdDraw.clear();
+			affiche2D(grille);
 		}
+		StdDraw.show(80);
 		return grille;		
 	}
 	
