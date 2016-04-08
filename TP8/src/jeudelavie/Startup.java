@@ -1,6 +1,5 @@
 package jeudelavie;
 
-import java.awt.Font;
 import java.io.IOException;
 import java.util.Scanner;
 
