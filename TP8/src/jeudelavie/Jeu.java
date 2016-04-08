@@ -169,8 +169,9 @@ public class Jeu {
 	 * @return array avec x:width, y:height
 	 */
 	public static int[] askSize2D(){
-		int x = 0;
-		int y = 0;
+		int tailleMin = 4;
+		int x = tailleMin;
+		int y = tailleMin;
 		StdDraw.setCanvasSize(200, 200);
 		StdDraw.setPenRadius(0.003);
 		afficheaskSize2D(x, y);
@@ -196,6 +197,10 @@ public class Jeu {
 								 	y++;
 							}
 							break;	
+				}
+				if (x < tailleMin || y < tailleMin) {
+					x = tailleMin;
+					y = tailleMin;
 				}
 				StdDraw.clear();
 				afficheaskSize2D(x, y);
