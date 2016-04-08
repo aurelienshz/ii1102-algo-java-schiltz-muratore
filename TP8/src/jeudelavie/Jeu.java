@@ -1,6 +1,7 @@
 package jeudelavie;
 
 import java.awt.Font;
+import java.util.Random;
 
 import edu.princeton.cs.introcs.StdDraw;
 
@@ -291,7 +292,7 @@ public class Jeu {
 			}
 		}
 		StdDraw.clear();
-		StdDraw.show(80);
+		StdDraw.show(100);
 		return output;
 	}
 	
@@ -320,7 +321,7 @@ public class Jeu {
 		}
 		else {
 			// False = Grille aléatoire
-			grille = new boolean[4][4];
+			grille = generateRandomGrid(size[1],size[0]);
 		}
 		
 		
@@ -328,6 +329,32 @@ public class Jeu {
 				
 	}
 	
+	/**
+	 * Génération aléatoire d'une grille 
+	 * @param sizeX largeur de la grille
+	 * @param sizeY hauteur de la grille
+	 * @return boolean[sizeX][sizeY] grille générée
+	 */
+	public static boolean[][] generateRandomGrid(int sizeX, int sizeY) {
+		Random rand = new Random();
+		boolean[][] grille = new boolean[sizeX][sizeY];
+		
+		for(int i = 0; i<grille.length; i++) {
+			for (int j = 0; j < grille[i].length; j++) {
+				
+				grille[i][j] = rand.nextInt(2)==1?true:false;
+			}
+		}
+		
+		return grille;
+	}
+	
+	/**
+	 * Saisie d'une grille à l'aide d'une interface graphique 
+	 * @param sizeX largeur de la grille
+	 * @param sizeY hauteur de la grille
+	 * @return boolean[sizeX][sizeY] grille saisie
+	 */
 	public static boolean[][] saisieGrille2D(int sizeX, int sizeY) {
 		
 		boolean[][] grille = new boolean[sizeX][sizeY];
