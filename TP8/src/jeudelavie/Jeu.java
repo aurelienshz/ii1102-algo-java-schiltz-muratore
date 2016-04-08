@@ -1,6 +1,8 @@
 package jeudelavie;
 
 import java.awt.Font;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import edu.princeton.cs.introcs.StdDraw;
 
@@ -165,6 +167,10 @@ public class Jeu {
 	/**
 	 * Affiche un écran graphique de saisie de taille de tableau et renvoie la taille validée
 	 * Validation avec : SHIFT
+	 * 
+	 * Tentative de statbiliser la prise en compte des clics, problème : les clics sont pris en compte avec 500ms de retard.
+	 * 
+	 * 
 	 * @return array avec x:width, y:height
 	 */
 	public static int[] askSize2D(){
@@ -174,8 +180,66 @@ public class Jeu {
 		int y = tailleMin;
 		StdDraw.setCanvasSize(200, 200);
 		StdDraw.setPenRadius(0.003);
-		afficheAskSize2D(x, y);
 		
+		boolean c = true;
+		
+		while(c) {
+			
+			StdDraw.clear();
+			afficheAskSize2D(x, y);
+			StdDraw.show();
+			
+			if(StdDraw.isKeyPressed(16)) {
+				c = false;
+			}
+			
+			// On attend un input souris :
+			while(!StdDraw.mousePressed() && c) {
+				// no op
+			}
+			
+			if(c) {
+				
+				int n = (int) (StdDraw.mouseX()*2);
+				int m = (int) (StdDraw.mouseY()*4);
+				
+				switch (m) {
+					case 0: if (n < 1) {
+									x--;
+							}else{
+								 	y--;
+							}
+							break;
+					case 1 :if (n < 1) {
+									x++;
+							} else {
+								 	y++;
+							}
+							break;	
+				}
+				if (x < tailleMin) { x = tailleMin; };
+				if (y < tailleMin) { y = tailleMin; };
+				if (x > tailleMax) { x = tailleMax; };
+				if (y > tailleMax) { y = tailleMax; };
+				
+				
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+
+				
+		}
+		
+		
+		
+			
+		
+		/*
 		while (!StdDraw.isKeyPressed(16)){
 			StdDraw.show(80);
 			
@@ -205,7 +269,9 @@ public class Jeu {
 				StdDraw.clear();
 				afficheAskSize2D(x, y);
 			}
-		}
+		}*/
+			
+			
 		int[] a = {x,y};
 		return a;
 		
