@@ -16,6 +16,7 @@
 ## Not Done ##
 - [ ] Peuplage aléatoire.
 - [ ] Sauvegarde de la grille dans un fichier en appuyant sur une touche en Graphique et en Console
+- [ ] Importer un fichier de carte.
 - [ ] Répondre aux questions du sujet à l'écrit dans le repo dans un fichier .md à créer.
 - [ ] Ecrans d'information pour expliquer les touches.
 - [ ] Détection de fin de partie.

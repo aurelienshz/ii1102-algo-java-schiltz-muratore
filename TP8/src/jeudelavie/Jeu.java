@@ -120,7 +120,6 @@ public class Jeu {
 	}
 	
 	
-	
 	/**
 	 * Déroule un jeu de la vie sur la grille donnée en parametre, en fichant les changements dans la console 
 	 * @param grille
@@ -140,7 +139,7 @@ public class Jeu {
 	 * @param x
 	 * @param y
 	 */
-	public static void afficheaskSize2D(int x, int y){
+	public static void afficheAskSize2D(int x, int y){
 		Font font = new Font("Arial", Font.BOLD, 20);
 		Font font2 = new Font("Arial", Font.BOLD, 30);
 		
@@ -170,11 +169,12 @@ public class Jeu {
 	 */
 	public static int[] askSize2D(){
 		int tailleMin = 4;
+		int tailleMax = 25;
 		int x = tailleMin;
 		int y = tailleMin;
 		StdDraw.setCanvasSize(200, 200);
 		StdDraw.setPenRadius(0.003);
-		afficheaskSize2D(x, y);
+		afficheAskSize2D(x, y);
 		
 		while (!StdDraw.isKeyPressed(16)){
 			StdDraw.show(80);
@@ -198,18 +198,59 @@ public class Jeu {
 							}
 							break;	
 				}
-				if (x < tailleMin || y < tailleMin) {
-					x = tailleMin;
-					y = tailleMin;
-				}
+				if (x < tailleMin) { x = tailleMin; };
+				if (y < tailleMin) { y = tailleMin; };
+				if (x > tailleMax) { x = tailleMax; };
+				if (y > tailleMax) { y = tailleMax; };
 				StdDraw.clear();
-				afficheaskSize2D(x, y);
-
+				afficheAskSize2D(x, y);
 			}
 		}
 		int[] a = {x,y};
 		return a;
 		
+	}
+	
+	/**
+	 * Affiche une fenêtre qui demande le mode de saisie du tableau
+	 * @return false si "Importer" true si "Créer"
+	 */
+	public static boolean askInitMode(){
+		boolean output = true;
+		Font font = new Font("Arial", Font.BOLD, 20);
+		
+		StdDraw.setCanvasSize(200, 100);
+		StdDraw.setPenRadius(0.003);
+		
+		StdDraw.setPenColor(StdDraw.BLACK);
+		StdDraw.line(0, 0.5, 1, 0.5);
+		StdDraw.line(0.5, 0, 0.5, 0.5);
+		StdDraw.setFont(font);
+		StdDraw.text(0.5, 0.5 + 0.25 ,"Mode de saisie :");
+		StdDraw.setFont(font);
+		StdDraw.setPenColor(StdDraw.RED);
+		StdDraw.text(0.25, 0.25 ,"Importer");
+		StdDraw.text(0.75, 0.25 ,"Créer");
+		StdDraw.setPenColor(StdDraw.BLACK);
+		
+		while (!StdDraw.mousePressed()){
+			StdDraw.show(80);
+		}
+		
+		if (StdDraw.mousePressed()){
+			
+			int n = (int) (StdDraw.mouseX()*2);
+			int m = (int) (StdDraw.mouseY()*2);
+			
+			if (m < 1){
+				if (n < 1) {
+					output = false;
+				}				
+			}
+		}
+		StdDraw.clear();
+		StdDraw.show(80);
+		return output;
 	}
 	
 	/**
@@ -220,7 +261,15 @@ public class Jeu {
 	 * @return grille
 	 */
 	public static boolean[][] initGrille2D(int height, int width) {
-		int[] size = askSize2D();
+		
+		int[] size = {10,10};
+		
+		if (askInitMode()){
+			size = askSize2D();
+		}else{
+			//Importer
+		}
+	
 		boolean[][] grille = new boolean[size[1]][size[0]];
 		
 		StdDraw.setCanvasSize(40*grille.length, grille[0].length*40);
@@ -230,14 +279,11 @@ public class Jeu {
 				grille[i][j] = false;
 			}
 		}
-		
+		StdDraw.show(80);
 		afficheGrille2D(grille);
 		while (!StdDraw.isKeyPressed(10)){
-			
 			StdDraw.show(60);
-			
 			if (StdDraw.mousePressed()){
-				
 				int n = (int) (StdDraw.mouseX()*grille.length);
 				int m = (int) (StdDraw.mouseY()*grille[0].length);
 				double tailleEllipse = 0;
@@ -254,7 +300,6 @@ public class Jeu {
 				StdDraw.filledEllipse((double) (n+0.5)/grille.length , (double) (m+0.5)/grille[0].length, (double) 1/(tailleEllipse*grille.length), (double) 1/(tailleEllipse*grille[0].length));
 			}
 		}
-		
 		return grille;		
 	}
 	
@@ -301,5 +346,30 @@ public class Jeu {
 	 */
 	public static boolean [][] lireGrille(String fichier) {
 		return null;
+	}
+	
+	/**
+	 * Enregistre une grille dans un fichier dont le chemin est donné en paramètre
+	 * @param fichier
+	 * @return
+	 */
+	public static boolean [][] ecrireGrille(String fichier) {
+		return null;
+	}
+	/**
+	 * Affiche les touches nécessaire pour jouer au jeu.
+	 */
+	public static void afficheInstructions() {
+		/* Instructions : 
+		 * SHIFT : avancer, fenêtre suivante
+		 * ENTREE pour valider une grille saisie à la main
+		 * q : quitter
+		 * r : recommencer
+		 * s : sauvegarder la grille
+		 */
+		
+		StdDraw.setCanvasSize(200, 800);
+		StdDraw.setPenRadius(0.003);
+		
 	}
 }
