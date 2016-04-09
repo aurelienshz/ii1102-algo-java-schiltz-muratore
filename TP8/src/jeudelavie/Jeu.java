@@ -578,8 +578,10 @@ public class Jeu {
 		StdDraw.setFont(fontBold);
 		if(endType == endImmobile) {
 			StdDraw.text(0.5, 0.90, "Grille immobile");
+			StdDraw.text(0.5, 0.15, "Au revoir !");
 		} else if(endType == endStable) {
 			StdDraw.text(0.5, 0.90, "État stable sur deux générations");
+			StdDraw.text(0.5, 0.15, "Au revoir !");
 		}
 		else {
 			StdDraw.text(0.5, 0.90, "Au revoir !");
@@ -587,7 +589,6 @@ public class Jeu {
 		
 		StdDraw.setFont(font);
 		StdDraw.setFont(fontBold);
-		StdDraw.text(0.5, 0.15, "Au revoir !");
 		
 		StdDraw.show();
 	}
