@@ -20,77 +20,6 @@ public class Jeu {
 	public static final int FPS = 10;
 	
 	/**
-	 * Retourne le nombre de voisins vivants d'une case.
-	 * @param x
-	 * @param y
-	 * @param grille
-	 * @return
-	 */
-	public static int countAliveNeighbors(int x, int y, boolean[][] grille){
-		int numberAlive = 0;
-		
-		int maxX = grille.length - 1;
-		int maxY = grille[0].length - 1;
-		
-		// Voisins adjacents :
-		if (x > 0) {
-			if(grille[x-1][y]) {
-				numberAlive += 1;
-			}
-		}
-		if (x < maxX) {
-			// Droite :
-			if (grille[x+1][y]) {
-				numberAlive += 1;
-			}
-		}
-		
-		if (y > 0) {
-			// Haut :
-			if (grille[x][y-1]) {
-				numberAlive += 1;
-			}
-		}
-		if (y < maxY) {
-			// Bas :
-			if (grille[x][y+1]) {
-				numberAlive += 1;
-			}
-		}
-		
-		
-		// Voisins diagonaux :
-		if (x > 0 && y > 0) {
-			//Haut Gauche
-			if (grille[x-1][y-1]) { 
-				numberAlive += 1;
-			}
-		}
-		if (x < maxX && y > 0) {
-			//Haut Droite
-			if (grille[x+1][y-1]) {
-				numberAlive += 1;
-			}
-		}
-		if (x < maxX && y < maxY) {
-			// Bas Droite
-			if (grille[x+1][y+1]) {
-				numberAlive += 1;
-			}
-		}
-		if (x > 0 && y < maxY) {
-			//Bas Gauche
-			if (grille[x-1][y+1]) {
-				numberAlive += 1;
-			}
-		}
-		
-		
-		return numberAlive;
-	}
-	
-	
-	/**
 	 * Execute une itération du jeu de la vie.
 	 * Modifie la grille (passage de la grille par référence)
 	 * @param grille
@@ -101,9 +30,30 @@ public class Jeu {
 		
 		int width = grille.length;
 		int height = grille[0].length;
+		int aliveNeighbors = 0;
+		
 		for (int i = 0; i < width; i++ ){
 			for (int j = 0; j < height; j++ ){
-				int aliveNeighbors = countAliveNeighbors(i,j,grille);
+						
+				// Le comptage des voisins vivants
+	
+				aliveNeighbors = 0;
+				
+				for(int k = - 1; k <= 1; k++) {
+					for (int l = -1; l <= 1 ; l++) {
+						if(!(k == 0 && l ==0)) {
+							// Vérification de l'existence du voisin :
+							if(i + k >= 0 && i + k < width && j + l >= 0 && j+l < height) {
+								if(grille[i+k][j+l]) {
+									aliveNeighbors ++;
+								}
+							}
+						}
+					}
+				}
+				
+				
+				// Réaffectation des valeurs dans la nouvelle grille : 
 				if (grille[i][j]) {
 					//Si elle est vivante : condition d'extinction
 					if (aliveNeighbors < 2 || aliveNeighbors > 3) {
@@ -125,8 +75,10 @@ public class Jeu {
 					}
 					// else : elle reste morte
 				}
+						
 			}
 		}
+		
 		return newGrille;
 	}
 	

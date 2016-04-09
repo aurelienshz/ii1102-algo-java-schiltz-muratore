@@ -54,7 +54,7 @@ public class Startup {
 
 
 	public static void handleConsole() {
-		System.out.println("# JEU DE LA VIE #");
+		System.out.println("### JEU DE LA VIE ###");
 		boolean[][] grille = Jeu.initGrilleConsole();
 		
 		
