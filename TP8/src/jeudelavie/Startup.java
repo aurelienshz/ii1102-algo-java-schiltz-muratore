@@ -7,7 +7,7 @@ import edu.princeton.cs.introcs.StdDraw;
 
 public class Startup {
 	
-	
+	public static Scanner scan = new Scanner(System.in);
 	
 	public static void main(String [] args) throws IOException {
 		if(args.length > 0 && args[0].equals("console")) {
@@ -54,21 +54,24 @@ public class Startup {
 
 
 	public static void handleConsole() {
-		Scanner scan = new Scanner(System.in);
 		System.out.println("# JEU DE LA VIE #");
 		boolean[][] grille = Jeu.initGrilleConsole();
-		System.out.println("Appuyer sur Entrée pour afficher l'étape suivante, saisir Q pour quitter");
-				
+		
+		
+		System.out.println("Appuyer sur Entrée pour afficher l'étape suivante");
+		System.out.println("Saisir Q+Entrée pour quitter");
+		System.out.println("Saisir S+Entrée pour sauvegarder la grille et quitter");
+		
 		String ch ="a";
 				
-		while(!ch.equals("q")) { // On quitte en appuyant sur "q" puis entrer
+		while(!ch.equals("q") && !ch.equals("s")) { // On quitte en appuyant sur "q" puis entrer
 			Jeu.afficheConsole(grille);
+			grille = Jeu.step(grille);
 			ch = scan.nextLine();
-			grille = Jeu.step(grille);		
+			if(ch.equals("s")) {
+				Jeu.ecrireGrille(grille, "save.txt");
+			}
 		}
-		scan.close();
-		
 	}
-	
 	
 }
