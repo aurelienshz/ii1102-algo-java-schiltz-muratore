@@ -23,10 +23,9 @@ public class Startup {
 	
 	private static void handle2D() {
 		
-		int i=0;
-
 		Jeu.afficheInstructions();
 		boolean[][] grille = Jeu.initGrille2D();
+		int end = Jeu.endGoodbye;
 		
 		/*Détection d'un état stable sur les deux dernières générations.
 		 * On pourrait stocker l'historique complet et faire un test sur tout l'historique à chaque génération pour détecter
@@ -38,7 +37,7 @@ public class Startup {
 		Jeu.affiche2D(grille);
 		
 		
-		while(i++ < 1000) {
+		while(true) {
 			
 			
 			
@@ -54,6 +53,11 @@ public class Startup {
 				Jeu.ecrireGrille(grille, "save.txt");
 			}
 			
+			if(StdDraw.isKeyPressed(81)) {
+				StdDraw.clear();
+				break;
+			}
+			
 			if (StdDraw.isKeyPressed(82)){ // Appui sur r
 				System.out.println("Jeu réinitialisé");
 				StdDraw.clear();
@@ -64,20 +68,21 @@ public class Startup {
 			}
 			
 			if(Arrays.deepEquals(grille, previousGrids[0])) {
-				Jeu.messageFin(true);
-				i = 10000;
+				end = Jeu.endStable;
+				break;
 			}	
 			
 			if(Arrays.deepEquals(grille, previousGrids[1])) {
-				Jeu.messageFin(false);
-				
-				i = 10000;
+				end = Jeu.endImmobile;
+				break;
 			}
 			
 			StdDraw.show(1000/Jeu.FPS);
 			
 			
 		}
+		Jeu.messageFin(end);
+		
 	}
 
 

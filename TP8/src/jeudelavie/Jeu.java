@@ -326,7 +326,7 @@ public class Jeu {
 				if (m < 1){
 					if (n < 1) {
 						output = 1;
-					}else {
+					} else {
 						output = 2;
 					}
 				}
@@ -347,7 +347,10 @@ public class Jeu {
 		boolean[][] grille = null;
 		int initMode = askInitMode();
 		
-		if (initMode == 2){
+		if(initMode == 1) {
+			grille = lireGrille("save.txt");
+		}
+		else if (initMode == 2){
 			size = askSize2D();
 			int fillingMode = askFillingMode();
 			if(fillingMode == 2) {
@@ -358,9 +361,8 @@ public class Jeu {
 				// False = Grille aléatoire
 				grille = generateRandomGrid(size[1],size[0]);
 			}
-		}else if(initMode == 1) {
-			grille = lireGrille("save.txt");
-		}else{
+		}
+		else {
 			grille = initGrille2D();
 		}
 		return grille;		
@@ -549,38 +551,74 @@ public class Jeu {
 		StdDraw.text(0.5, 0.61, "ENTREE : idem, mais uniquement");
 		StdDraw.text(0.5, 0.56, "pour la saisie au clic du tableau");
 		StdDraw.text(0.5, 0.45, "r : pour recommencer");
-		StdDraw.text(0.5, 0.30, "s : pour sauvegarder le tableau actuel");
+		StdDraw.text(0.5, 0.34, "s : pour sauvegarder le tableau actuel");
+		StdDraw.text(0.5, 0.23, "q : Quitter");
 		StdDraw.setFont(fontBold);
-		StdDraw.text(0.5, 0.15, "Bon jeu !");
+		StdDraw.text(0.5, 0.10, "Bon jeu !");
 		
 		while (!StdDraw.isKeyPressed(16)){
 			StdDraw.show(80);
 		}
 	}
 	
+	
+	public static final int endGoodbye = 1;
+	public static final int endImmobile = 2;
+	public static final int endStable = 3;
+	
 	/**
 	 * Message de fin de jeu
 	 * @param immobile Détermine si la grille est stable ou immobile
 	 */
-	public static void messageFin(boolean immobile) {
+	public static void messageFin(int endType) {
 		StdDraw.setCanvasSize(500, 300);
 		StdDraw.setPenRadius(0.003);
 		Font font = new Font("Arial", Font.PLAIN, 15);
 		Font fontBold = new Font("Arial", Font.BOLD, 20);
 		StdDraw.setFont(fontBold);
-		if(immobile) {
+		if(endType == endImmobile) {
 			StdDraw.text(0.5, 0.90, "Grille immobile");
-		} else {
+		} else if(endType == endStable) {
 			StdDraw.text(0.5, 0.90, "État stable sur deux générations");
+		}
+		else {
+			StdDraw.text(0.5, 0.90, "Au revoir !");
 		}
 		
 		StdDraw.setFont(font);
-		// StdDraw.text(0.5, 0.75, "Shift : Quitter");
 		StdDraw.setFont(fontBold);
 		StdDraw.text(0.5, 0.15, "Au revoir !");
 		
-		while (!StdDraw.isKeyPressed(16)){
-			StdDraw.show(80);
-		}
+		StdDraw.show();
 	}
+	
+	/* Time to  
+
+
+                        (
+                          )     (
+                   ___...(-------)-....___
+               .-""       )    (          ""-.
+         .-'``'|-._             )         _.-|
+        /  .--.|   `""---...........---""`   |
+       /  /    |                             |
+       |  |    |                             |
+        \  \   |                             |
+         `\ `\ |                             |
+           `\ `|                             |
+           _/ /\                             /
+          (__/  \                           /
+       _..---""` \                         /`""---.._
+    .-'           \                       /          '-.
+   :               `-.__             __.-'              :
+   :                  ) ""---...---"" (                 :
+    '._               `"--...___...--"`              _.'
+      \""--..__                              __..--""/
+       '._     """----.....______.....----"""     _.'
+          `""--..,,_____            _____,,..--""`
+                        `"""----"""`
+
+
+
+	 */
 }
