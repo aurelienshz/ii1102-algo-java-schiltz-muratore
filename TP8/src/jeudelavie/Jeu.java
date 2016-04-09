@@ -410,7 +410,7 @@ public class Jeu {
 				int n = (int) (StdDraw.mouseX()*grille.length);
 				int m = (int) (StdDraw.mouseY()*grille[0].length);
 				
-				if (grille[n][m]){
+				if (grille[n][m]) {
 					grille[n][m] = false;
 				}else{
 					grille[n][m] = true;
@@ -538,7 +538,7 @@ public class Jeu {
 	 */
 	public static void afficheInstructions() {
 		
-		StdDraw.setCanvasSize(280, 200);
+		StdDraw.setCanvasSize(500, 300);
 		StdDraw.setPenRadius(0.003);
 		Font font = new Font("Arial", Font.PLAIN, 15);
 		Font fontBold = new Font("Arial", Font.BOLD, 20);
@@ -552,6 +552,32 @@ public class Jeu {
 		StdDraw.text(0.5, 0.30, "s : pour sauvegarder le tableau actuel");
 		StdDraw.setFont(fontBold);
 		StdDraw.text(0.5, 0.15, "Bon jeu !");
+		
+		while (!StdDraw.isKeyPressed(16)){
+			StdDraw.show(80);
+		}
+	}
+	
+	/**
+	 * Message de fin de jeu
+	 * @param immobile Détermine si la grille est stable ou immobile
+	 */
+	public static void messageFin(boolean immobile) {
+		StdDraw.setCanvasSize(500, 300);
+		StdDraw.setPenRadius(0.003);
+		Font font = new Font("Arial", Font.PLAIN, 15);
+		Font fontBold = new Font("Arial", Font.BOLD, 20);
+		StdDraw.setFont(fontBold);
+		if(immobile) {
+			StdDraw.text(0.5, 0.90, "Grille immobile");
+		} else {
+			StdDraw.text(0.5, 0.90, "État stable sur deux générations");
+		}
+		
+		StdDraw.setFont(font);
+		// StdDraw.text(0.5, 0.75, "Shift : Quitter");
+		StdDraw.setFont(fontBold);
+		StdDraw.text(0.5, 0.15, "Au revoir !");
 		
 		while (!StdDraw.isKeyPressed(16)){
 			StdDraw.show(80);

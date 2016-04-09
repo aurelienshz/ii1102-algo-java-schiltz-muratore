@@ -27,20 +27,33 @@ public class Startup {
 
 		Jeu.afficheInstructions();
 		boolean[][] grille = Jeu.initGrille2D();
-
+		
+		/*Détection d'un état stable sur les deux dernières générations.
+		 * On pourrait stocker l'historique complet et faire un test sur tout l'historique à chaque génération pour détecter
+		 * les états stables sur plus de 2 générations. 
+		 */
+		boolean[][][] previousGrids = new boolean[2][grille.length][grille[0].length];
 		
 		StdDraw.setCanvasSize(40*grille.length, grille[0].length*40);
 		Jeu.affiche2D(grille);
 		
+		
 		while(i++ < 1000) {
+			
+			
+			
 			if (StdDraw.isKeyPressed(16)){ //Appui sur shift
+				previousGrids[0] = previousGrids[1];
+				previousGrids[1] = grille;
 				grille = Jeu.step(grille);
 				StdDraw.clear();
 				Jeu.affiche2D(grille);
-				}
+			}
+			
 			if (StdDraw.isKeyPressed(83)){ //Appui sur s
 				Jeu.ecrireGrille(grille, "save.txt");
 			}
+			
 			if (StdDraw.isKeyPressed(82)){ // Appui sur r
 				System.out.println("Jeu réinitialisé");
 				StdDraw.clear();
@@ -49,7 +62,21 @@ public class Startup {
 				StdDraw.setCanvasSize(40*grille.length, grille[0].length*40);
 				Jeu.affiche2D(grille);
 			}
-				StdDraw.show(1000/Jeu.FPS);
+			
+			if(Arrays.deepEquals(grille, previousGrids[0])) {
+				Jeu.messageFin(true);
+				i = 10000;
+			}	
+			
+			if(Arrays.deepEquals(grille, previousGrids[1])) {
+				Jeu.messageFin(false);
+				
+				i = 10000;
+			}
+			
+			StdDraw.show(1000/Jeu.FPS);
+			
+			
 		}
 	}
 
@@ -72,12 +99,7 @@ public class Startup {
 		String ch ="a";
 				
 		while(!ch.equals("q") && !ch.equals("s")) { // On quitte en appuyant sur "q" puis entrer
-			System.out.println("Génération n-2 : ");
-			Jeu.afficheConsole(previousGrids[0]);
-			
-			System.out.println("Génération précédente : ");
-			Jeu.afficheConsole(previousGrids[1]);
-			
+
 			System.out.println("Nouvelle génération : ");
 			Jeu.afficheConsole(grille);
 			previousGrids[0] = previousGrids[1];
