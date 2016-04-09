@@ -109,7 +109,7 @@ Sortie : G2 le tableau à l'état suivant.
 
 ```
 
-*On met la grille dans un nouvelle variable complètement reconstruite pour éviter les effets de bords dûs aux références* 
+*Remarque :* On stocke la grille dans un nouvelle variable complètement reconstruite pour éviter les effets de bords dûs aux références.
 
 ### Evaluation de la Complexité ###
 
@@ -118,29 +118,31 @@ On peut se placer dans l'approximation n=m (tableau carré), d'où une compleit�
 
 Une approche plus fine de la complexité de cet algorithme est l'évaluation du nombre de recherches , on effectue plusieurs itérations des deux boucles POUR suivantes, on peut donc calculer le nombre de recherches de voisins en séparant les cas en fonction du nombre de voisins :
 
-1. Les 4 **coins** ont 3 voisins : R = 4*3 = 12, soit une **complexité constante**.
+1. Les 4 **coins** ont 3 voisins : `R = 4*3 = 12`, soit une **complexité constante**.
 
 2. Les cases sur **les bords** hormis les 4 coins ont 5 voisins et ils sont au nombre de (n-2) par côté en n (2 côtés) et (m-2) par côté en m (2 cotés également) :
-R = 2*5*(m-2+n-2) = 10*(m+n-4)
+```R = 2*5*(m-2+n-2) = 10*(m+n-4)```
 Soit, dans l'approximation m = n, une **complexité linéaire** en O(n).
 
 3. Les **cases restantes** sont des cases ayant toutes 8 voisins. Elles sont au nombre de (m-2)*(n-2) car on a déjà traité les cases situées au bord du tableau, il reste donc le "rectangle intérieur". Cela donne un nombre de recherches de voisins égal à :
-R = 8 * (n-2) * (m-2) = 8*m*n - 16*m - 16*n + 32
+```R = 8 * (n-2) * (m-2) = 8*m*n - 16*m - 16*n + 32```
 Soit, dans l'approximation m=n, une **complexité quadratique** en 0(n^2).
 	
 Le nombre total de recherches de voisins est donc :
 ```
 R = 8*m*n - 16*m - 16*n + 32 + 10*(m+n-4) + 12
 R = 8*m*n - 6*m - 6*n + 4
+```
 Soit, dans l'approximation m = n :
+```
 R = 8*n^2 - 12*n + 4
 ```
 
-Nous retrouvons une complexité en `n^2`, où `n` est la taille caractéristique du tableau.
 
+Nous retrouvons une **complexité en `n^2`**, où `n` est la taille caractéristique du tableau.
 
 À titre indicatif, voici le nombre de recherches de voisins pour quelques valeurs de n, dans le cas d'un tableau carré :
 
 |**n** |2   |3   |4   |5   |
 |---   |--- |--- |--- |--- |
-|Valeur|12  |40  |84  |144 |
+|**R** |12  |40  |84  |144 |
