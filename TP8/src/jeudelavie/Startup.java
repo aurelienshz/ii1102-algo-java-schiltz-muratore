@@ -15,8 +15,6 @@ public class Startup {
 		}
 		else {
 			handle2D();
-			
-			
 		}
 	 
 	}
@@ -56,25 +54,17 @@ public class Startup {
 
 
 	public static void handleConsole() {
-		// System.out.println("# JEU DE LA VIE #");
-		// System.out.println("Appuyer sur Entrée pour afficher l'étape suivante, saisir Q pour quitter");
-		/*
-		 * boolean [][] grille = {
-		 
-			{false, false, false, true},
-			{true,  true,  true, false},
-			{false, false, false, true}		
-		}; */
-		
-		boolean[][] grille = Jeu.initGrilleConsole();
-		
-		String ch ="a";
 		Scanner scan = new Scanner(System.in);
+		System.out.println("# JEU DE LA VIE #");
+		boolean[][] grille = Jeu.initGrilleConsole();
+		System.out.println("Appuyer sur Entrée pour afficher l'étape suivante, saisir Q pour quitter");
+				
+		String ch ="a";
 				
 		while(!ch.equals("q")) { // On quitte en appuyant sur "q" puis entrer
 			Jeu.afficheConsole(grille);
 			ch = scan.nextLine();
-			grille = Jeu.step(grille);			
+			grille = Jeu.step(grille);		
 		}
 		scan.close();
 		

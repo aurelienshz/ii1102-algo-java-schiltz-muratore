@@ -94,6 +94,7 @@ public class Jeu {
 	 * @param grille
 	 */
 	public static boolean[][] step(boolean [][] grille) {
+		
 		boolean[][] newGrille = new boolean[grille.length][grille[0].length];
 		
 		int width = grille.length;
@@ -132,6 +133,7 @@ public class Jeu {
 		Scanner scan = new Scanner(System.in);
 		
 		int choice = -1;
+		boolean[][] grille = new boolean[0][0];
 		
 		System.out.println("### Menu : ###");
 		System.out.println("1. Charger une grille à partir d'un fichier");
@@ -139,30 +141,38 @@ public class Jeu {
 		System.out.println("3. Générer une grille aléatoirement");
 
 		choice = scan.nextInt();
+		
 		while(choice < 1 && choice > 3) {
 			System.out.println("Choix invalide !");
 			choice = scan.nextInt();
 		}
 		
-		switch(choice) {
-		case 1:
-			System.out.println("Pas encore implémenté :3");
+		if(choice == 1) {
+			System.out.println("Pas encore implémenté");
+			
 			//grille = initGrilleConsole();
-			break;
-		case 2:
+		}
+		else {
 			System.out.println("Création d'une nouvelle grille :");
-			System.out.println("Hauteur : ");
-			int height = scan.nextInt();
 			System.out.println("Largeur : ");
 			int width = scan.nextInt();
+			System.out.println("Hauteur : ");
+			int height = scan.nextInt();
 			
 			
-			boolean[][] grille = new boolean[width][height];
-			for (int i = 0; i < width; i ++) {
-				for (int j = 0; j < height; j ++) {
-					System.out.println("Cellule : ligne "+ (i+1) +", colonne "+ (j+1) +" vivante ? [O/n]");
+			grille = new boolean[height][width];
+			
+			for (int i = 0; i < height; i ++) {
+				for (int j = 0; j < width; j ++) {
+					grille[i][j] = true;
+				}
+			}
+			
+			for (int i = 0; i < height; i ++) {
+				for (int j = 0; j < width; j ++) {
+					System.out.println("Cellule : ligne "+ (j+1) +", colonne "+ (i+1) +" vivante ? [O/n]");
 					String c = scan.next();
-					if(c.toLowerCase()=="o" || c =="") {
+					if(c.toLowerCase().equals("o") || c.equals("")) {
 						grille[i][j] = true;
 					}
 					else {
@@ -170,9 +180,8 @@ public class Jeu {
 					}
 				}
 			}			
-			break;
 		}
-		
+		scan.close();
 		return grille;
 	}
 	
