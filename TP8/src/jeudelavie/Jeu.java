@@ -15,6 +15,8 @@ import edu.princeton.cs.introcs.StdDraw;
 
 public class Jeu {
 	
+	public static Scanner scan = new Scanner(System.in);
+	
 	public static final int FPS = 10;
 	
 	/**
@@ -130,7 +132,6 @@ public class Jeu {
 	
 	
 	public static boolean[][] initGrilleConsole() {
-		Scanner scan = new Scanner(System.in);
 		
 		int choice = -1;
 		boolean[][] grille = new boolean[0][0];
@@ -148,41 +149,61 @@ public class Jeu {
 		}
 		
 		if(choice == 1) {
-			System.out.println("Pas encore implémenté");
-			
-			//grille = initGrilleConsole();
+			grille =  lireGrille("save.txt");
 		}
 		else {
-			System.out.println("Création d'une nouvelle grille :");
+			System.out.println("Dimensions de la grille :");
 			System.out.println("Largeur : ");
 			int width = scan.nextInt();
 			System.out.println("Hauteur : ");
 			int height = scan.nextInt();
 			
-			
-			grille = new boolean[height][width];
-			
-			for (int i = 0; i < height; i ++) {
-				for (int j = 0; j < width; j ++) {
-					grille[i][j] = true;
-				}
-			}
-			
-			for (int i = 0; i < height; i ++) {
-				for (int j = 0; j < width; j ++) {
-					System.out.println("Cellule : ligne "+ (j+1) +", colonne "+ (i+1) +" vivante ? [O/n]");
-					String c = scan.next();
-					if(c.toLowerCase().equals("o") || c.equals("")) {
+			if(choice == 2) {
+				grille = new boolean[height][width];
+				
+				for (int i = 0; i < height; i ++) {
+					for (int j = 0; j < width; j ++) {
 						grille[i][j] = true;
 					}
-					else {
-						grille[i][j] = false;
-					}
 				}
-			}			
+				
+				for (int i = 0; i < height; i ++) {
+					for (int j = 0; j < width; j ++) {
+						System.out.println("Cellule : ligne "+ (j+1) +", colonne "+ (i+1) +" vivante ? [O/n]");
+						String c = scan.next();
+						if(c.toLowerCase().equals("o") || c.equals("")) {
+							grille[i][j] = true;
+						}
+						else {
+							grille[i][j] = false;
+						}
+					}
+				}	
+			}
+			else {
+				grille = generateRandomGrid(width, height);
+			}
 		}
-		scan.close();
-		return grille;
+		
+		/*
+		 * Vérification de la validité de la grille et nouvelle tentative si l'user n'est pas satisfait :
+		 */
+		
+		String ch = "a";
+		System.out.println();
+		afficheConsole(grille);
+		System.out.println("Cette grille vous convient-elle ? [o/n]");
+
+		ch = scan.next();
+		
+		if(ch.toLowerCase().equals("o") || ch.equals("")) {
+			return grille;
+		}
+		else {
+			grille = initGrilleConsole();
+			return grille;
+		}
+		
 	}
 	
 	/**
