@@ -1,6 +1,7 @@
 package jeudelavie;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 import edu.princeton.cs.introcs.StdDraw;
@@ -57,6 +58,12 @@ public class Startup {
 		System.out.println("### JEU DE LA VIE ###");
 		boolean[][] grille = Jeu.initGrilleConsole();
 		
+		/*Détection d'un état stable sur les deux dernières générations.
+		 * On pourrait stocker l'historique complet et faire un test sur tout l'historique à chaque génération pour détecter
+		 * les états stables sur plus de 2 générations. 
+		 */
+		boolean[][][] previousGrids = new boolean[2][grille.length][grille[0].length];
+		
 		
 		System.out.println("Appuyer sur Entrée pour afficher l'étape suivante");
 		System.out.println("Saisir Q+Entrée pour quitter");
@@ -65,9 +72,31 @@ public class Startup {
 		String ch ="a";
 				
 		while(!ch.equals("q") && !ch.equals("s")) { // On quitte en appuyant sur "q" puis entrer
+			System.out.println("Génération n-2 : ");
+			Jeu.afficheConsole(previousGrids[0]);
+			
+			System.out.println("Génération précédente : ");
+			Jeu.afficheConsole(previousGrids[1]);
+			
+			System.out.println("Nouvelle génération : ");
 			Jeu.afficheConsole(grille);
+			previousGrids[0] = previousGrids[1];
+			previousGrids[1] = grille;
+			
 			grille = Jeu.step(grille);
+			
 			ch = scan.nextLine();
+			
+			if(Arrays.deepEquals(grille, previousGrids[0])) {
+				System.out.println("On a atteint un état stable sur 2 générations.");
+				ch = ch.equals("s")?"s":"q";
+			}	
+			
+			if(Arrays.deepEquals(grille, previousGrids[1])) {
+				System.out.println("Grille immobile !");
+				ch = ch.equals("s")?"s":"q";
+			}
+			
 			if(ch.equals("s")) {
 				Jeu.ecrireGrille(grille, "save.txt");
 			}
