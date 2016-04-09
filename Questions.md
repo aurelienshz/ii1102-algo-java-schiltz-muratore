@@ -111,12 +111,13 @@ Sortie : G2 le tableau à l'état suivant.
 
 *Remarque :* On stocke la grille dans un nouvelle variable complètement reconstruite pour éviter les effets de bords dûs aux références.
 
+
 ### Evaluation de la Complexité ###
 
 On a deux boucles POUR imbriquées ; on réalise donc `n*m` itérations pour tester les cases du tableau. Les deux boucles POUR suivantes auront *au maximum* 3 itérations et n'influent donc pas sur la complexité de cet algorithme.
 On peut se placer dans l'approximation n=m (tableau carré), d'où une compleité en O(n^2).
 
-Une approche plus fine de la complexité de cet algorithme est l'évaluation du nombre de recherches , on effectue plusieurs itérations des deux boucles POUR suivantes, on peut donc calculer le nombre de recherches de voisins en séparant les cas en fonction du nombre de voisins :
+Une approche plus fine de la complexité de cet algorithme est l'évaluation du nombre total de recherches de voisins, on effectue plusieurs itérations des deux boucles POUR suivantes, on peut donc calculer le nombre de recherches de voisins en séparant les cas en fonction du nombre de voisins :
 
 1. Les 4 **coins** ont 3 voisins : `R = 4*3 = 12`, soit une **complexité constante**.
 
@@ -146,3 +147,11 @@ Nous retrouvons une **complexité en `n^2`**, où `n` est la taille caractérist
 |**n** |2   |3   |4   |5   |
 |---   |--- |--- |--- |--- |
 |**R** |12  |40  |84  |144 |
+
+
+### Pistes d'améliorations possibles ###
+
+Cet algorithme est assez naïf : on pourrait réduire sa complexité en apportant des améliorations visant à réduire le nombre d'opérations de calculs du nombre de voisins vivants pour chaque cellule. Au moins deux axes se présentent :
+
+- on pourrait chercher un moyen de ne pas avoir à re-tester les cellules qui l'ont déjà été : parcourir le tableau en prenant des décisions pour la case courante en fonction des cases déjà visitées (par exemple, à l'aide d'un algorithme récursif ?)
+- on pourrait mémoriser les cases qui auraient une raison de changer à la génération courante. Le plus naïf est de s'intéresser aux voisins de chaque cellule qui est morte ou née à la génération précédente, et ainsi ne réaliser les opérations que dans les zones "actives" de la grille.
