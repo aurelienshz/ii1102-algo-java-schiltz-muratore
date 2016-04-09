@@ -2,9 +2,9 @@
  
 ## I. Algorithmique : ##
 
-- Les cellules ont **deux** états *vivant* ou *mort*
+- Les cellules ont **deux** états : *vivant* ou *mort*
 - Il serait donc judicieux d'utiliser une **variable booléenne** pour représenter l'état des cellules 
-- Un **Tableau deux dimension de booléens** semble être le choix approprié de variable.
+- Un **tableau de booléens à deux dimensions** semble être le choix approprié de variable.
  
 ## II. Etude des règles : ##
 
@@ -12,14 +12,15 @@
 
 ### Le cas du milieu ###
 
-On se place au milieu de la grille donc on ne prendra pas de précautions sur l'existance des 8 voisins dans ce pseuso-code ci
+On se place au milieu de la grille donc on ne prendra pas de précautions sur l'existence des 8 voisins dans ce pseuso-code ci
+
 ```
 Entrée : grille, le tableau de la partie indexé par x et y
 
-entier NbVoisinsVivants = 0
-booléen EtatCellule = G[x][y]
+entier NbVoisinsVivants = 0;
+booléen EtatCellule = G[x][y];
 
-POUR ( i entier allant de -1 à 1 )
+POUR (i entier allant de -1 à 1)
 	POUR (j entier allant de -1 à 1)
 		SI (i et j pas tous deux égaux à 0)
 			SI (G[x+i][y+j] est à vrai)
@@ -30,11 +31,13 @@ POUR ( i entier allant de -1 à 1 )
 FIN POUR
 
 SWITCH (EtatCellule)
-	CAS vrai : 
-		SI NbVoisinsVivants ne pas vaut 2 ou 3
+	CAS vrai :
+		// Condition de mort :
+		SI NbVoisinsVivants différent de 2 ou de 3
 			EtatCellule = faux
 		FIN SI
 	CAS faux
+		// Condition de naissance :
 		SI NbVoisinsVivants vaut 3
 			EtatCellule = vrai
 		FIN SI
@@ -57,9 +60,10 @@ POUR ( i entier allant de 0 à 1 )
 	FIN POUR
 FIN POUR
 ```
+
 ### Le cas en Général ###
 
-Dans le cas général d'un tableau de taille n,m, il faut vérifier avant de relever sa valeur que chaque voisin est bien dans le tableau pour réaliser cela nous avons rajouté un SI.
+Dans le cas général d'un tableau de taille n,m, il faut vérifier avant de relever sa valeur que chaque voisin est bien dans le tableau pour réaliser cela nous avons rajouté un `SI`.
 
 ```
 Entrée : grille, le tableau de la partie de taille n,m
@@ -67,7 +71,8 @@ Entrée : grille, le tableau de la partie de taille n,m
 POUR ( x entier allant de 0 à n)
 	POUR (y entier allant de 0 à m) //On teste chaque case du tableau
 		
-		//Le comptage des voisins vivants
+		// Le comptage des voisins vivants
+
 		entier NbVoisinsVivants = 0
 		POUR ( i entier allant de -1 à 1 )
 			POUR (j entier allant de -1 à 1)
@@ -83,13 +88,13 @@ POUR ( x entier allant de 0 à n)
 		
 		//En fonction du nombre de voisins, détermination de l'état de la cellule
 		SWITCH (G[x][y])
-			CAS vrai : //Si la cellule est vivante
+			CAS vrai : //Si la cellule est vivante : conditions de mort
 				SI (NbVoisinsVivants ne pas vaut 2 ou 3)
 					G2[x][y] = faux
 				SINON
 					G2[x][y] = vrai
 				FIN SI
-			CAS faux : //Si la cellule est morte
+			CAS faux : //Si la cellule est morte : condition de naissance
 				SI (NbVoisinsVivants vaut 3)
 					G2[x][y] = vrai
 				SINON
@@ -101,26 +106,41 @@ POUR ( x entier allant de 0 à n)
 FIN POUR
 
 Sortie : G2 le tableau à l'état suivant.
+
 ```
-*On met la grille dans un nouvelle variable complètement reconstruite pour éviter les effets de bord et les pointeurs.* 
+
+*On met la grille dans un nouvelle variable complètement reconstruite pour éviter les effets de bords dûs aux références* 
 
 ### Evaluation de la Complexité ###
 
-- Comme l'on a deux boucles POUR imbriquées on fait n*m itérations pour tester les cases du tableau.
-Donc si l'on prends n=m on est en n^2.
+On a deux boucles POUR imbriquées ; on réalise donc `n*m` itérations pour tester les cases du tableau. Les deux boucles POUR suivantes auront *au maximum* 3 itérations et n'influent donc pas sur la complexité de cet algorithme.
+On peut se placer dans l'approximation n=m (tableau carré), d'où une compleité en O(n^2).
 
-- Pour chaque case l'on effectue plusieurs itérations des deux boucles POUR suivantes, on pourrait calculer les itérations en séparant les cas en fonction nu nombre de voisins.
+Une approche plus fine de la complexité de cet algorithme est l'évaluation du nombre de recherches , on effectue plusieurs itérations des deux boucles POUR suivantes, on peut donc calculer le nombre de recherches de voisins en séparant les cas en fonction du nombre de voisins :
 
-	1. Les 4 **coins** ont 3 voisins : 4*3 = 12.
-	2. Les cases sur **les bords** hormis les coins ont 5 voisins et ils sont au nombre de (n-2) par côté en n (soit 2) et (m-2) par côté en m (soit 2) : 5*2*(n-2+m-2) = 10*(n+m-4)
-	3. Les **cases restantes** sont des cases ayant tous leurs 8 voisins, ils sont au nombre de (n-1)*(m-1) car on a traité tous les cas particuliers sur les bors, il reste donc le "rectangle intérieur"
+1. Les 4 **coins** ont 3 voisins : R = 4*3 = 12, soit une **complexité constante**.
 
-Ce qui nous fait au total : 2*(4*m*n+m+n-10)*n*m (ou 8 * m^2 *n^2 +2*m^2 *n+2*m*n^2 -20*m*n)
+2. Les cases sur **les bords** hormis les 4 coins ont 5 voisins et ils sont au nombre de (n-2) par côté en n (2 côtés) et (m-2) par côté en m (2 cotés également) :
+R = 2*5*(m-2+n-2) = 10*(m+n-4)
+Soit, dans l'approximation m = n, une **complexité linéaire** en O(n).
 
-Par exemple si n = m on a 2*(n^2)*(4*(n^2)+2*n-10)
+3. Les **cases restantes** sont des cases ayant toutes 8 voisins. Elles sont au nombre de (m-2)*(n-2) car on a déjà traité les cases situées au bord du tableau, il reste donc le "rectangle intérieur". Cela donne un nombre de recherches de voisins égal à :
+R = 8 * (n-2) * (m-2) = 8*m*n - 16*m - 16*n + 32
+Soit, dans l'approximation m=n, une **complexité quadratique** en 0(n^2).
+	
+Le nombre total de recherches de voisins est donc :
+```
+R = 8*m*n - 16*m - 16*n + 32 + 10*(m+n-4) + 12
+R = 8*m*n - 6*m - 6*n + 4
+Soit, dans l'approximation m = n :
+R = 8*n^2 - 12*n + 4
+```
 
-Voici le nombre de recherches de voisins pour quelques valeurs de n :
+Nous retrouvons une complexité en `n^2`, où `n` est la taille caractéristique du tableau.
+
+
+À titre indicatif, voici le nombre de recherches de voisins pour quelques valeurs de n, dans le cas d'un tableau carré :
 
 |**n** |2   |3   |4   |5   |
 |---   |--- |--- |--- |--- |
-|Valeur|80  |576 |1984|5000|
+|Valeur|12  |40  |84  |144 |
