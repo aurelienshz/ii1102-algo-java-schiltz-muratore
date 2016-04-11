@@ -1,6 +1,5 @@
 # TO DO LIST #
 
-
 ## Done ##
 - [x] Affichage Grille en Console
 - [x] Affichage du jeu en Console
@@ -14,9 +13,5 @@
 - [x] Importer un fichier de carte.
 - [x] Ecrans d'information pour expliquer les touches.
 - [x] Répondre aux questions du sujet à l'écrit dans le repo dans un fichier .md à créer.
-
-## WIP ##
-- [ ] Demander en début de partie la taille de la grille en Console
-
-## Not Done ##
-- [ ] Détection de fin de partie.
+- [x] Demander en début de partie la taille de la grille en Console
+- [x] Détection de fin de partie.
